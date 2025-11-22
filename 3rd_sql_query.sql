@@ -1,0 +1,14 @@
+create database Study_Basics;
+use Study_Basics;
+create table Department(dept_id int primary key auto_increment,dept_name varchar(25));
+insert into Department(dept_name) values('HR'),('IT'),('Finance');
+insert into Department(dept_name) values ('Sales'),('Production'),('Customer Support');
+SET SQL_SAFE_UPDATES = 0;
+delete from Department where dept_name in ('Sales', 'Production', 'Customer Support');
+create table Employee(emp_id int primary key,emp_name varchar(25),salary int ,dept_id int ,foreign key(dept_id) references Department(dept_id),join_date date);
+insert into Employee(emp_id,emp_name,salary,dept_id,join_date) values(101,'Alice',75000,2,'2022-04-10'),(102,'Bob',60000,1,'2019-12-20'),(103,'Charlie',82000,3,'2021-06-15'),(104,'David',55000,2,'2020-08-05'),(105,'Eva',90000,3,'2023-02-25');
+select * from Employee where salary > ( select avg (salary) from Employee) ;
+select * from Employee where salary = (select max(salary) from Employee);
+select * from Employee where dept_id in (select dept_id from department where dept_name in ('HR','IT'));
+select emp_name from Employee where dept_id in (select dept_id from department where dept_name in ('Finance')); 
+select * from Department d where 60000 < (select max(e.salary) from Employee e where e.dept_id = d.dept_id);
